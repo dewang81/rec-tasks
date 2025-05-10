@@ -12,7 +12,7 @@ public class Repository {
     private final Map<AccountOwner, List<Account>> accountsByOwner = new HashMap<>();
 
     public List<Account> getAccountsBy(final AccountOwner owner) {
-        return accountsByOwner.get(owner);
+        return accountsByOwner.getOrDefault(owner, new ArrayList<>());
     }
 
     public void registerAccount(final AccountOwner owner, final Account account) {

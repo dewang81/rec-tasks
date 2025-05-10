@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static com.worldremit.recruitment.transfer.TestUtils.parseDate;
 import static java.time.Instant.now;
@@ -42,12 +43,14 @@ class TransferServiceTest {
         firstOwnerAccount.deposit(initialBalance);
 
         // when
-        for (int i = 0; i <= threadsCount; i++) {
+        for (int i = 0; i < threadsCount; i++) {
             executor.execute(() -> {
                 transferService.makeTransfer(new Transfer(Date.from(now()), firstOwnerAccount, secondOwnerAccount, initialBalance));
                 transferService.makeTransfer(new Transfer(Date.from(now()), secondOwnerAccount, firstOwnerAccount, initialBalance));
             });
         }
+        executor.shutdown();
+        executor.awaitTermination(1, TimeUnit.MINUTES);
 
         // then
         Assertions.assertThat(firstOwnerAccount.getBalance()).isEqualTo(initialBalance);

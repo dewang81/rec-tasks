@@ -1,13 +1,16 @@
 package com.worldremit.recruitment.transfer.service;
 
+import com.worldremit.recruitment.transfer.domain.Account;
 import com.worldremit.recruitment.transfer.domain.Transfer;
+import com.worldremit.recruitment.transfer.Error;
 import org.apache.log4j.Logger;
 
 public class TransferService {
     private final Logger logger = Logger.getLogger(TransferService.class);
 
-    public void makeTransfer(final Transfer transfer) {
+    public synchronized void makeTransfer(final Transfer transfer) {
         validateOrThrow(transfer);
+
         if (transfer.getSourceAccount().getBalance() < transfer.getAmount()) {
             logger.error("The transfer cannot be performed due to insufficient funds on the source account");
         } else {

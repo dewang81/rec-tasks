@@ -30,7 +30,7 @@ public class AccountOwner {
     @Override
     public String toString() {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return "AccountOwner[name='" + name + "', surname='" + surname + "', dateOrBirth=" + dateFormat.format(dateOfBirth) + "]";
+        return "AccountOwner(name='" + name + "', surname='" + surname + "', dateOfBirth=" + dateFormat.format(dateOfBirth) + ")";
     }
 
     @Override
@@ -38,11 +38,11 @@ public class AccountOwner {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountOwner that = (AccountOwner) o;
-        return dateOfBirth.equals(that.dateOfBirth);
+        return name.equals(that.name) && surname.equals(that.surname) && dateOfBirth.equals(that.dateOfBirth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dateOfBirth);
+        return Objects.hash(name, surname, dateOfBirth);
     }
 }
